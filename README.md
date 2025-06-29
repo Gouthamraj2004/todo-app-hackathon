@@ -70,24 +70,32 @@ MongoDB Atlas is assumed as the database backend.
 
 🏗️ Architecture Diagram
 
-[User Browser]
-       |
-       v
-[React Frontend App on Netlify/Vercel]
-       |
-       | 1. API Requests
-       v
-[Express/Node.js Backend on Render]
-       |
-       | 2. Database Calls
-       v
-[MongoDB Atlas Cloud Database]
++-------------------------------+
+|        User's Browser         |
+| (React App: Login & Dashboard)|
++---------------+---------------+
+                |
+                v
++-------------------------------+
+|  React Frontend (Netlify)     |
+|  - Login with Google          |
+|  - Calls API endpoints        |
++---------------+---------------+
+                |
+                v
++-------------------------------+
+|  Node.js/Express Backend      |
+|  (Render/Railway/Heroku)      |
+|  - REST API /tasks            |
+|  - Google OAuth handler       |
++-------+---------------+-------+
+        |               |
+        v               v
++---------------+  +----------------+
+| MongoDB Atlas |  | Google OAuth   |
+| - Task Data   |  | - Login Flow   |
++---------------+  +----------------+
 
-[Express/Node.js Backend]
-       |
-       | 3. OAuth Redirects & Token Exchange
-       v
-[Google OAuth 2.0 Servers]
 
 
 🔗 Important Notes
