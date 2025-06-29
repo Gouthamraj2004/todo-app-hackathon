@@ -1,4 +1,4 @@
-# Todo Task Manager 📝
+# To-do Task Manager 📝
 
 A full-stack task management app built with React, Node.js, Express, MongoDB, and Material UI. Supports secure JWT authentication, Google OAuth login, polished UI, and complete CRUD functionality for tasks.
 
