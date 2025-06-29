@@ -14,7 +14,7 @@ app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json());
 
 app.use(session({
-  secret: 'your_session_secret',
+  secret: process.env.JWT_SECRET || 'default_session_secret',
   resave: false,
   saveUninitialized: false,
 }));
@@ -26,10 +26,10 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
-// Passport Google Strategy
+// Passport Google Strategy with env variables
 passport.use(new GoogleStrategy({
-  clientID: '450444685159-f4abcff7481rt95ah9emuccgt0hkp39m.apps.googleusercontent.com',
-  clientSecret: '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',
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   callbackURL: '/auth/google/callback'
 }, (accessToken, refreshToken, profile, done) => {
   return done(null, profile);
@@ -66,7 +66,7 @@ app.get('/auth/google/callback',
         picture: user.avatar,
       };
 
-      const token = jwt.sign(tokenPayload, 'my_secret_key', { expiresIn: '1h' });
+      const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, { expiresIn: '1h' });
       res.redirect(`http://localhost:3000/oauth-success?token=${token}`);
     } catch (err) {
       console.error('Error in Google callback:', err);
@@ -80,7 +80,7 @@ app.post('/login', (req, res) => {
   const { username, password } = req.body;
   if (username && password) {
     const user = { username };
-    const token = jwt.sign(user, 'my_secret_key', { expiresIn: '1h' });
+    const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.json({ token });
   } else {
     res.status(400).json({ error: 'Username and password required' });
@@ -93,7 +93,7 @@ function authenticateToken(req, res, next) {
   const token = authHeader && authHeader.split(' ')[1];
   if (!token) return res.status(401).json({ error: 'Unauthorized' });
 
-  jwt.verify(token, 'my_secret_key', (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) return res.status(403).json({ error: 'Forbidden' });
     req.user = user;
     next();
@@ -108,3 +108,4 @@ app.get('/', (req, res) => res.send('API running!'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+
