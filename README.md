@@ -75,13 +75,4 @@ Architecture diagram attached ✅
 
 ---
 
-## ✅ Next steps for you:
-1️⃣ Replace `yourusername` in the repo link and Loom video URL.  
-2️⃣ Add your actual architecture diagram image as `architecture-diagram.png` in your repo root.  
-3️⃣ Deploy your app publicly (Render for backend, Netlify/Vercel for frontend) so it meets the “publicly deployed submission” requirement.  
-4️⃣ Commit your `README.md`:
-```bash
-git add README.md architecture-diagram.png
-git commit -m "Add README with instructions, assumptions, and diagram"
-git push origin main
-```
+
